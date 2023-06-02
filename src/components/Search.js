@@ -29,14 +29,25 @@ const Search = ({setIsLoading, setSearchResults}) => {
   const [century, setCentury] = useState('any');
   const [classification, setClassification] = useState('any');
 
+/* function to map over century and classification*/
+  const MapCentury = () => {
+   const mapped = centuryList.map((item) => {
+    return(
+      <option key={item.id} value={item.name}>{item.name}</option>
+    )
+   })
+   return mapped;
+  }
 
-  const mapClassification = () => {
-    classificationList.map((value) => {
-      return <option />
+  const MapClassification = () => {
+    const mapped = classificationList.map((item) => {
+       return(
+      <option key={item.id} value={item.name}>{item.name}</option>
+    )
     })
+    return mapped;
+  }
 
-    
-    }
   /**
    * Inside of useEffect, use Promise.all([]) with fetchAllCenturies and fetchAllClassifications
    * 
@@ -45,6 +56,19 @@ const Search = ({setIsLoading, setSearchResults}) => {
    * Make sure to console.error on caught errors from the API methods.
    */
   useEffect(() => {
+    
+    const getCentury = async () => {
+      const centuries = await fetchAllCenturies();
+      setCenturyList(centuries);
+      console.log(centuries);
+    }
+    getCentury()
+
+    const getClassification = async () => {
+      const classify = await fetchAllClassifications();
+      setClassificationList(classify);
+    }
+    getClassification();
 
   }, []);
 
@@ -84,6 +108,7 @@ const Search = ({setIsLoading, setSearchResults}) => {
         value={/* this should be the classification */ classification} 
         onChange={/* this should update the value of the classification */ setClassification}>
         <option value="any">Any</option>
+        <MapClassification />
         {/* map over the classificationList, return an <option /> */}
       </select>
     </fieldset>
@@ -95,6 +120,7 @@ const Search = ({setIsLoading, setSearchResults}) => {
         value={/* this should be the century */ century} 
         onChange={/* this should update the value of the century */ setCentury}>
         <option value="any">Any</option>
+        <MapCentury />
         {/* map over the centuryList, return an <option /> */}
       </select>
      </fieldset>
