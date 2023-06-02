@@ -90,6 +90,17 @@ const Search = ({setIsLoading, setSearchResults}) => {
    */
   return <form id="search" onSubmit={async (event) => {
     // write code here
+    event.preventDefault();
+    setIsLoading(true);
+    try {
+      const data = await fetchQueryResults( {century, classification, queryString} )
+      setSearchResults(data);
+      console.log(data);
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+    }
   }}>
     <fieldset>
       <label htmlFor="keywords">Query</label>
@@ -98,7 +109,7 @@ const Search = ({setIsLoading, setSearchResults}) => {
         type="text" 
         placeholder="enter keywords..." 
         value={/* this should be the query string */ queryString} 
-        onChange={/* this should update the value of the query string */ setQueryString}/>
+        onChange={/* this should update the value of the query string */ (event) => setQueryString(event.target.value)}/>
     </fieldset>
     <fieldset>
       <label htmlFor="select-classification">Classification <span className="classification-count">({ classificationList.length })</span></label>
@@ -106,7 +117,7 @@ const Search = ({setIsLoading, setSearchResults}) => {
         name="classification"
         id="select-classification"
         value={/* this should be the classification */ classification} 
-        onChange={/* this should update the value of the classification */ setClassification}>
+        onChange={/* this should update the value of the classification */ (event) => setClassification(event.target.value)}>
         <option value="any">Any</option>
         <MapClassification />
         {/* map over the classificationList, return an <option /> */}
@@ -118,7 +129,7 @@ const Search = ({setIsLoading, setSearchResults}) => {
         name="century" 
         id="select-century"
         value={/* this should be the century */ century} 
-        onChange={/* this should update the value of the century */ setCentury}>
+        onChange={/* this should update the value of the century */ (event) => setCentury(event.target.value)}>
         <option value="any">Any</option>
         <MapCentury />
         {/* map over the centuryList, return an <option /> */}
