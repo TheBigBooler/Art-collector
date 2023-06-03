@@ -38,25 +38,37 @@ const Preview = ({
     }
   }
   /*Functions to render previews*/
-  
-  
+
   const MapRecords = () => {
+    //   const ImagePreview = () => {
+    //   if (record.primaryimageurl) {
+    //     return <img src={record.primaryimageurl} alt={record.description} />;
+    //   }
+    // };
 
-  //   const ImagePreview = () => {
-  //   if (record.primaryimageurl) {
-  //     return <img src={record.primaryimageurl} alt={record.description} />;
-  //   }
-  // };
-  
-  // const TitlePreview = () => {
-  //   if (record.title) {
-  //     return <h3>{record.title}</h3>;
-  //   } else {
-  //     return <h3>MISSING INFO</h3>;
-  //   }
-  // };
+    // const TitlePreview = () => {
+    //   if (record.title) {
+    //     return <h3>{record.title}</h3>;
+    //   } else {
+    //     return <h3>MISSING INFO</h3>;
+    //   }
+    // };
 
-    const mapped = records.map((record, index) =>{
+    const mapped = records.map((record, index) => {
+      const ImagePreview = () => {
+        if (record.primaryimageurl) {
+          return <img src={record.primaryimageurl} alt={record.description} />;
+        } else {
+          return <p>No image found</p>
+        }
+      };
+      const TitlePreview = () => {
+        if (record.title) {
+          return <h3>{record.title}</h3>;
+        } else {
+          return <h3>MISSING INFO</h3>;
+        }
+      };
       return (
         <div
           key={index}
@@ -64,13 +76,15 @@ const Preview = ({
           onClick={(event) => {
             event.preventDefault();
             setFeaturedResult(record);
-          }}>
-            
-          </div>
-      )
-    })
+          }}
+        >
+          <ImagePreview />
+          <TitlePreview />
+        </div>
+      );
+    });
     return mapped;
-  }
+  };
 
   return (
     <aside id="preview">
