@@ -75,6 +75,7 @@ const Preview = ({
           className="object-preview"
           onClick={(event) => {
             event.preventDefault();
+            console.log(record);
             setFeaturedResult(record);
           }}
         >
